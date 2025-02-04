@@ -1,0 +1,31 @@
+name: Deploy to Azure Web App
+
+on:
+  push:
+    branches:
+      - main  # デプロイ対象のブランチを指定
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3  # コードを取得
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'  # 使用しているNode.jsのバージョンを指定
+
+    - name: Install dependencies
+      run: npm install  # 必要なパッケージをインストール
+
+    - name: Build project
+      run: npm run build  # アプリケーションをビルド
+
+    - name: Deploy to Azure Web App
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: "your-app-service-name"  # AzureのApp Service名を指定
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
