@@ -6,7 +6,8 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI, Query
 import difflib
-
+import uvicorn
+from fastapi import FastAPI
 
 app = FastAPI()
 
@@ -30,6 +31,8 @@ class EchoMessage(BaseModel):
 @app.get("/")
 def index():
     return {"message": "FastAPI top page!"}
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8080)
 
 @app.get("/api/movie")
 def get_movie_info(title: str = Query(..., description="映画のタイトル")):
